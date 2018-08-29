@@ -54,9 +54,22 @@
 
 {% set container = theme.settings.fluid_container ? 'container-fluid' : 'container' %}
 
+{# Front page banner area #}
+{% if page.front_banner %}
+  <div class="container-fluid front-banner-wrap">
+    <div class="row front-banner-mask">
+	{% block front_banner %}
+		<div class="front-banner-inner center">
+          {{ page.front_banner }}
+		</div>
+	{% endblock %}
+	</div>
+  </div>
+{% endif %}
+
 {# Header #}
 {% if page.header %}
-  <div class="container-fluid">
+  <div class="{{ container }}">
     <div class="row">
 	{% block header %}
 		<div class="header">
