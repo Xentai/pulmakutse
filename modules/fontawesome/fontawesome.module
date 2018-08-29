@@ -10,6 +10,7 @@ use Drupal\Core\Link;
 use Symfony\Component\Yaml\Yaml;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\TypedData\Plugin\DataType\ItemList;
 
 /**
  * Implements hook_help().
@@ -71,6 +72,18 @@ function fontawesome_library_info_alter(&$libraries, $extension) {
           ];
         }
       }
+    }
+
+    // Allow pseudo-elements in JS if selected.
+    if ($configuration_settings->get('allow_pseudo_elements')) {
+      // Modify the library.
+      $librarySettings = reset($libraries['fontawesome.svg']['js']);
+      $librarySource = key($libraries['fontawesome.svg']['js']);
+      // Font Awesome requires this script tag to enable pseudo elements.
+      $librarySettings['attributes'] = [
+        'data-search-pseudo-elements' => TRUE,
+      ];
+      $libraries['fontawesome.svg']['js'][$librarySource] = $librarySettings;
     }
   }
 }
@@ -150,11 +163,6 @@ function fontawesome_page_attachments(array &$page) {
     }
   }
   else {
-    // Allow pseudo-elements in JS if selected.
-    if ($configuration_settings->get('allow_pseudo_elements')) {
-      $page['#attached']['library'][] = 'fontawesome/fontawesome.svg.pseudoElements';
-    }
-
     // SVG method.
     $page['#attached']['library'][] = 'fontawesome/fontawesome.svg';
 
@@ -394,17 +402,19 @@ function fontawesome_entity_presave(EntityInterface $entity) {
   if ($entity instanceof ContentEntityInterface) {
     // Loop over the fields.
     foreach ($entity->getFields() as $fields) {
-      // If this is a text field (uses an editor).
-      if (in_array($fields->getFieldDefinition()->getType(), [
-        'text',
-        'text_long',
-        'text_with_summary',
-      ])) {
-        foreach ($fields as $field) {
-          // Find and replace SVG strings with original icon HTML.
-          $fieldValue = $field->getValue();
-          $fieldValue['value'] = preg_replace('%<svg .*?class="svg-inline--fa.*?<\/svg><!--\s?(.*?)\s?-->%', '$1', $fieldValue['value']);
-          $field->setValue($fieldValue);
+      if ($fields instanceof ItemList) {
+        // If this is a text field (uses an editor).
+        if (in_array($fields->getFieldDefinition()->getType(), [
+          'text',
+          'text_long',
+          'text_with_summary',
+        ])) {
+          foreach ($fields as $field) {
+            // Find and replace SVG strings with original icon HTML.
+            $fieldValue = $field->getValue();
+            $fieldValue['value'] = preg_replace('%<svg .*?class="svg-inline--fa.*?<\/svg><!--\s?(.*?)\s?-->%', '$1', $fieldValue['value']);
+            $field->setValue($fieldValue);
+          }
         }
       }
     }
