@@ -13,6 +13,7 @@ html, body
     -webkit-text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+	margin-top: 0px;
 }
 
 .center { /* to use this class, make sure the element that wraps this has position: relative; set */
@@ -26,7 +27,9 @@ html, body
 	background: url("../images/frontbanner.jpg") center no-repeat;
 	background-size: cover;
 	opacity: 0.7;
-	height: 700px;
+	-moz-opacity: 0.7;  
+    filter:alpha(opacity=70);  
+	height: 100vh;
 }
 
 .front-banner-inner {
@@ -37,7 +40,7 @@ html, body
 /* --- */
 
 .main-container {
-	margin-top: 2em;
+	margin-top: 0px;
 	margin-bottom: 4em;
 }
 
@@ -45,7 +48,7 @@ html, body
 
 .nav-tabs {
     border-bottom: 1px solid #ddd;
-	margin-bottom: 2em;
+	margin-top: 2em;
 }
 
 .nav-tabs>li>a {
@@ -80,6 +83,32 @@ html, body
 .main-title-description {
 	font-size: 32px;
 	margin: 5px 0 0 0;
+}
+
+/* --- PARAGRAPHS --- */
+
+.paragraph {
+	margin-top: 2em;
+}
+
+.paragraph--type--webform {
+	background: url("../images/frontbanner.jpg") center no-repeat;
+	background-size: cover;
+	margin-left: -15px;
+	margin-right: -15px;
+	opacity: 0.7;
+	-moz-opacity: 0.7;  
+    filter:alpha(opacity=70);  
+	height: 800px;
+	position: relative;
+}
+
+.paragraph--type--webform--inner {
+	
+}
+
+.field--type-webform {
+	width: 50%;
 }
 
 /* --- */
@@ -258,6 +287,7 @@ input[type=range]:focus::-ms-fill-upper {
 .alert {
     padding: 20px;
 	margin-top: 2em;
+	margin-bottom: 0px;
     border: 1px solid transparent;
     border-radius: 4px;
 	line-height: 0;

@@ -57,7 +57,7 @@
 {# Front page banner area #}
 {% if page.front_banner %}
   <div class="container-fluid front-banner-wrap">
-    <div class="row front-banner-mask">
+    <div class="row">
 	{% block front_banner %}
 		<div class="front-banner-inner center">
           {{ page.front_banner }}
@@ -66,23 +66,10 @@
 	</div>
   </div>
 {% endif %}
-
-{# Header #}
-{% if page.header %}
-  <div class="{{ container }}">
-    <div class="row">
-	{% block header %}
-		<div class="header">
-          {{ page.header }}
-		</div>
-	{% endblock %}
-	</div>
-  </div>
-{% endif %}
 	  
 {# Main #}
 {% block main %}
-  <div role="main" class="main-container {{ container }} js-quickedit-main-content">
+  <div role="main" class="container-fluid main-container js-quickedit-main-content">
     <div class="row">
 
       {# Sidebar First #}
@@ -104,7 +91,6 @@
         ]
       %}
       <section{{ content_attributes.addClass(content_classes) }}>
-
         {# Content #}
         {% block content %}
           <a id="main-content"></a>
@@ -126,7 +112,7 @@
 
 {% if page.footer %}
   {% block footer %}
-    <footer class="footer {{ container }}" role="contentinfo">
+    <footer class="footer container-fluid" role="contentinfo">
       {{ page.footer }}
     </footer>
   {% endblock %}
