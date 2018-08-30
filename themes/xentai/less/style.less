@@ -16,19 +16,24 @@ html, body
 	margin-top: 0px;
 }
 
-.center { /* to use this class, make sure the element that wraps this has position: relative; set */
+.vcenter { /* to use this class, make sure the element that wraps this has position: relative; set */
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%)
 }
 
+.hcenter { /* to use this class, make sure the element that wraps this has position: relative; set */
+    display: block; 
+	margin:0 auto;
+}
+
 .front-banner-wrap {
 	background: url("../images/frontbanner.jpg") center no-repeat;
 	background-size: cover;
-	opacity: 0.7;
-	-moz-opacity: 0.7;  
-    filter:alpha(opacity=70);  
+	opacity: 0.6;
+	-moz-opacity: 0.6;  
+    filter:alpha(opacity=60);  
 	height: 100vh;
 }
 
@@ -91,24 +96,50 @@ html, body
 	margin-top: 2em;
 }
 
-.paragraph--type--webform {
-	background: url("../images/frontbanner.jpg") center no-repeat;
-	background-size: cover;
-	margin-left: -15px;
-	margin-right: -15px;
-	opacity: 0.7;
-	-moz-opacity: 0.7;  
-    filter:alpha(opacity=70);  
-	height: 800px;
-	position: relative;
-}
-
-.paragraph--type--webform--inner {
-	
-}
-
 .field--type-webform {
 	width: 50%;
+}
+
+.paragraph--type--icons {
+	margin-top: -4em;
+	background-color: #FFFFFF;
+	padding: 50px;
+}
+
+.paragraph-wrap-icons {
+	margin-left: -15px;
+	margin-right: -15px;
+}
+
+.icon-wrap {
+	text-align: center;
+	font-size: 14px;
+}
+
+.icon {
+	margin-bottom: 10px;
+}
+
+.top-text {
+	margin-bottom: 5px;
+}
+
+.icon-wrap span {
+	font-weight: bold;
+}
+
+.paragraph--type--text-area-with-background {
+	margin-top: 0px;
+}
+
+.paragraph-wrap-area {
+	margin-top: 2em;
+	margin-left: -15px;
+	margin-right: -15px;
+	background-color: #2196F3; 
+	color: #FFFFFF;
+	padding-top: 2em;
+	padding-bottom: 6em;
 }
 
 /* --- */
