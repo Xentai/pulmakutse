@@ -49,8 +49,10 @@
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
-	  <div class="container">
-      {{ content }}
+	  <div class="row paragraph-webform-wrap">
+	    <div class="container">
+        {{ content }}
+		</div>
 	  </div>
     {% endblock %}
   </div>

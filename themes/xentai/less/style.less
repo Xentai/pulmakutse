@@ -16,9 +16,36 @@ html, body
 	margin-top: 0px;
 }
 
+p {
+	color: #8c8c8c;
+}
+
+
+.h1, .h2, .h3, h1, h2, h3 {
+    margin-top: 25px;
+    margin-bottom: 20px;
+}
+
+h2 {
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 1,75rem;
+}
+
+h3 {
+	text-transform: uppercase;
+	font-weight: bold;
+	font-size: 1,125rem;
+}
+
+.columns-row {
+	margin-left: -30px;
+	margin-right: -30px;
+}
+
 .vcenter { /* to use this class, make sure the element that wraps this has position: relative; set */
     position: absolute;
-    top: 50%;
+    top: 25%;
     left: 50%;
     transform: translate(-50%, -50%)
 }
@@ -31,10 +58,15 @@ html, body
 .front-banner-wrap {
 	background: url("../images/frontbanner.jpg") center no-repeat;
 	background-size: cover;
+	/*
 	opacity: 0.6;
 	-moz-opacity: 0.6;  
     filter:alpha(opacity=60);  
-	height: 100vh;
+	*/
+	height: 90vh;
+	-webkit-box-shadow: inset 0px -100px 90px 20px rgba(0,0,0,0.8);
+-moz-box-shadow: inset 0px -100px 90px 20px rgba(0,0,0,0.8);
+box-shadow: inset 0px -100px 90px 20px rgba(0,0,0,0.8);
 }
 
 .front-banner-inner {
@@ -46,14 +78,14 @@ html, body
 
 .main-container {
 	margin-top: 0px;
-	margin-bottom: 4em;
+	margin-bottom: 4rem;
 }
 
 /* --- */
 
 .nav-tabs {
     border-bottom: 1px solid #ddd;
-	margin-top: 2em;
+	margin-top: 2rem;
 }
 
 .nav-tabs>li>a {
@@ -83,17 +115,19 @@ html, body
 
 .main-title {
 	font-size: 58px;
+	color: #FFFFFF;
 }
 
 .main-title-description {
 	font-size: 32px;
 	margin: 5px 0 0 0;
+	color: #FFFFFF;
 }
 
 /* --- PARAGRAPHS --- */
 
 .paragraph {
-	margin-top: 2em;
+	margin-top: 5rem;
 }
 
 .field--type-webform {
@@ -101,9 +135,9 @@ html, body
 }
 
 .paragraph--type--icons {
-	margin-top: -4em;
+	margin-top: -6rem;
 	background-color: #FFFFFF;
-	padding: 50px;
+	padding: 5rem 3rem 0 3rem;
 }
 
 .paragraph-wrap-icons {
@@ -133,13 +167,50 @@ html, body
 }
 
 .paragraph-wrap-area {
-	margin-top: 2em;
+	margin-top: 5rem;
 	margin-left: -15px;
 	margin-right: -15px;
-	background-color: #2196F3; 
-	color: #FFFFFF;
-	padding-top: 2em;
-	padding-bottom: 6em;
+	background-color: @color1; 
+	color: #000000;
+	padding-top: 4rem;
+	padding-bottom: 15rem;
+}
+
+.paragraph-wrap-area p {
+	color: #8c8c8c;
+}
+
+.paragraph-webform-wrap {
+	padding: 2rem;
+	background-color: @color1;
+}
+
+/* --- */
+
+.form-control {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: @color1;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid @color1;
+    border-radius: 0px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.form-control:focus {
+    border-color: @color1;
+    outline: 0;
+    -webkit-box-shadow: none;;
+    box-shadow: none;
 }
 
 /* --- */
@@ -180,7 +251,7 @@ html, body
 
 /* When the radio button is checked, add a blue background */
 .control-label input:checked ~ .checkmark {
-  background-color: #2196F3;
+  background-color: @color1;
 }
 
 /* Create the indicator (the dot/circle - hidden when not checked) */
@@ -202,7 +273,7 @@ html, body
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: white;
+  background: #000000;
 }
 
 .checkbox label, .radio label {
@@ -227,23 +298,23 @@ input[type=range]::-webkit-slider-runnable-track {
   cursor: pointer;
   animate: 0.2s;
   box-shadow: 0px 0px 0px #000000;
-  background: #2497E3;
+  background: @color1;
   border-radius: 1px;
   border: 0px solid #000000;
 }
 input[type=range]::-webkit-slider-thumb {
   box-shadow: 0px 0px 0px #000000;
-  border: 1px solid #2497E3;
+  border: 1px solid @color1;
   height: 18px;
   width: 18px;
   border-radius: 25px;
-  background: #A1D0FF;
+  background: @color1;
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: -7px;
 }
 input[type=range]:focus::-webkit-slider-runnable-track {
-  background: #2497E3;
+  background: @color1;
 }
 input[type=range]::-moz-range-track {
   width: 100%;
@@ -251,17 +322,17 @@ input[type=range]::-moz-range-track {
   cursor: pointer;
   animate: 0.2s;
   box-shadow: 0px 0px 0px #000000;
-  background: #2497E3;
+  background: @color1;
   border-radius: 1px;
   border: 0px solid #000000;
 }
 input[type=range]::-moz-range-thumb {
   box-shadow: 0px 0px 0px #000000;
-  border: 1px solid #2497E3;
+  border: 1px solid @color1;
   height: 18px;
   width: 18px;
   border-radius: 25px;
-  background: #A1D0FF;
+  background: @color1;
   cursor: pointer;
 }
 input[type=range]::-ms-track {
@@ -274,13 +345,13 @@ input[type=range]::-ms-track {
   color: transparent;
 }
 input[type=range]::-ms-fill-lower {
-  background: #2497E3;
+  background: @color1;
   border: 0px solid #000000;
   border-radius: 2px;
   box-shadow: 0px 0px 0px #000000;
 }
 input[type=range]::-ms-fill-upper {
-  background: #2497E3;
+  background: @color1;
   border: 0px solid #000000;
   border-radius: 2px;
   box-shadow: 0px 0px 0px #000000;
@@ -288,7 +359,7 @@ input[type=range]::-ms-fill-upper {
 input[type=range]::-ms-thumb {
   margin-top: 1px;
   box-shadow: 0px 0px 0px #000000;
-  border: 1px solid #2497E3;
+  border: 1px solid @color1;
   height: 18px;
   width: 18px;
   border-radius: 25px;
@@ -296,18 +367,18 @@ input[type=range]::-ms-thumb {
   cursor: pointer;
 }
 input[type=range]:focus::-ms-fill-lower {
-  background: #2497E3;
+  background: @color1;
 }
 input[type=range]:focus::-ms-fill-upper {
-  background: #2497E3;
+  background: @color1;
 }
 
 .form-type-range output {
     opacity: 0.7;
     position: absolute;
-	color: #2196F3;
+	color: #000000;
     background: #FFFFFF;
-    border: 1px solid #2196F3;
+    border: 1px solid @color1;
     padding: 2px 5px;
     text-align: center;
 	top: 26px !important;
@@ -317,7 +388,7 @@ input[type=range]:focus::-ms-fill-upper {
 
 .alert {
     padding: 20px;
-	margin-top: 2em;
+	margin-top: 2rem;
 	margin-bottom: 0px;
     border: 1px solid transparent;
     border-radius: 4px;
@@ -334,12 +405,36 @@ input[type=range]:focus::-ms-fill-upper {
 .btn {
 	font-size: 18px;
 	line-height: 1.5;
+	border-radius: 0px;
 }
 
 .btn-primary {
-    color: #fff;
-    background-color: #2196F3;
-    border-color: #2196F3;
+    color: #8c8c8c;
+    background-color: @color1;
+    border-color: @color1;
+}
+
+.btn-primary.active, .btn-primary:active, .btn-primary:hover, .open>.dropdown-toggle.btn-primary {
+    color: #000000;
+    background-color: @color1;
+    border-color: @color1;
+}
+
+.btn-primary.focus, .btn-primary:focus {
+    color: #000000;
+    background-color: @color1;
+    border-color: @color1;
+}
+
+.has-error .checkbox, .has-error .checkbox-inline, .has-error .control-label, .has-error .help-block, .has-error .radio, .has-error .radio-inline, .has-error.checkbox label, .has-error.checkbox-inline label, .has-error.radio label, .has-error.radio-inline label {
+    color: #000000;
+}
+
+.control-group .help-inline, .help-block {
+    color: #8c8c8c;
+    font-size: 12px;
+    margin: 5px 0 10px;
+    padding: 0;
 }
 
 /* --- */
