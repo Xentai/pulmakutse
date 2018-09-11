@@ -15,4 +15,5 @@ regions:
 
 libraries-extend:
   bootstrap/framework:
-    - xentai/framework
+    - 'xentai/framework'
+    - 'xentai/fonts'

@@ -15,3 +15,8 @@ framework:
     bootstrap/js/scrollspy.js: {}
     bootstrap/js/tab.js: {}
     bootstrap/js/transition.js: {}
+    
+fonts:
+  css:
+    theme:
+      '//fonts.googleapis.com/css?family=Roboto:300,400,500,700': { type: external, minified: true }

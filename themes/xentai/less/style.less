@@ -7,8 +7,10 @@
 html, body
 {
     height: 100%;
-	font-family: "roboto",sans-serif;
-    font-size: 18px;
+	font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+	font-weight: 400;
+	font-style: normal;
     line-height: 1.5;
     -webkit-text-size-adjust: 100%;
     -webkit-font-smoothing: antialiased;
@@ -17,19 +19,40 @@ html, body
 }
 
 p {
-	color: #8c8c8c;
+	color: @color-gray;
+}
+
+a, 
+a:focus, 
+a:hover, 
+a:active {
+	color: @color-gray-dark;
+	font-weight: 500;
+}
+
+b, strong {
+    font-weight: 700;
 }
 
 
 .h1, .h2, .h3, h1, h2, h3 {
-    margin-top: 25px;
-    margin-bottom: 20px;
+    margin-top: 0px;
+    margin-bottom: 1.75rem;
 }
+
+@media (max-width: @screen-md-min) {
+	.h1, .h2, .h3, h1, h2, h3 {
+		margin-top: 2rem;
+		margin-bottom: 1.75rem;
+	}
+}
+
+
 
 h2 {
 	text-transform: uppercase;
 	font-weight: bold;
-	font-size: 1,75rem;
+	font-size: 1.75rem;
 }
 
 h3 {
@@ -45,7 +68,7 @@ h3 {
 
 .vcenter { /* to use this class, make sure the element that wraps this has position: relative; set */
     position: absolute;
-    top: 25%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -50%)
 }
@@ -65,8 +88,10 @@ h3 {
 	*/
 	height: 90vh;
 	-webkit-box-shadow: inset 0px -100px 90px 20px rgba(0,0,0,0.8);
--moz-box-shadow: inset 0px -100px 90px 20px rgba(0,0,0,0.8);
-box-shadow: inset 0px -100px 90px 20px rgba(0,0,0,0.8);
+    -moz-box-shadow: inset 0px -100px 90px 20px rgba(0,0,0,0.8);
+    box-shadow: inset 0px -100px 90px 20px rgba(0,0,0,0.8);
+
+	background-attachment: fixed;
 }
 
 .front-banner-inner {
@@ -89,26 +114,27 @@ box-shadow: inset 0px -100px 90px 20px rgba(0,0,0,0.8);
 }
 
 .nav-tabs>li>a {
-	color: #777;
+	color: @color-gray;
     margin-right: 2px;
     line-height: 1.42857143;
-    border: 1px solid #e7e7e7;
+    border: 1px solid @color-gray-light;
     border-radius: 0;
-	background-color: #eee;
+	background-color: @color1;
 }
 
 .nav-tabs>li>a:focus, 
 .nav-tabs>li>a:hover {
-	color: #333;
-	border: 1px solid #e7e7e7;
+	color: @color-gray-dark;
+	border: 1px solid @color-gray-light;
     text-decoration: none;
-    background-color: #e7e7e7;
+    background-color: @color1;
 }
 
 .nav-tabs>li.active>a, 
 .nav-tabs>li.active>a:focus, 
 .nav-tabs>li.active>a:hover {
- background-color: #e7e7e7;
+	color: @color-gray-dark;
+	background-color: @color-gray-light;
 }
 
 /* --- TEMPLATES --- */
@@ -130,14 +156,25 @@ box-shadow: inset 0px -100px 90px 20px rgba(0,0,0,0.8);
 	margin-top: 4rem;
 }
 
-.field--type-webform {
-	width: 50%;
+@media (max-width: @screen-md-min) {
+	.paragraph {
+		margin-top: 2rem;
+		margin-bottom: 4rem;
+	}
 }
 
-.paragraph--type--icons {
-	margin-top: -6rem;
-	background-color: #FFFFFF;
-	padding: 5rem 3rem 0 3rem;
+@media (min-width: @screen-md-min) {
+	.field--type-webform {
+		width: 50%;
+	}
+}
+
+@media (min-width: @screen-md-min) {
+	.paragraph--type--icons {
+		margin-top: -8rem;
+		background-color: #FFFFFF;
+		padding: 5rem 3rem 0 3rem;
+	}
 }
 
 .paragraph-wrap-icons {
@@ -145,13 +182,27 @@ box-shadow: inset 0px -100px 90px 20px rgba(0,0,0,0.8);
 	margin-right: -15px;
 }
 
+@media (max-width: @screen-md-min) {
+	.paragraph-wrap-icons {
+		margin-top: 4rem;
+		margin-top: 4rem;
+	}
+	
+	.icon-wrap {
+		background-color: @color2;
+		margin: 1rem;
+		padding: 3rem 1rem;
+	}
+}
+
 .icon-wrap {
 	text-align: center;
-	font-size: 14px;
+	font-size: 16px;
 }
 
 .icon {
-	margin-bottom: 10px;
+	margin-bottom: 15px;
+	color: @color-gray-light;
 }
 
 .top-text {
@@ -170,19 +221,31 @@ box-shadow: inset 0px -100px 90px 20px rgba(0,0,0,0.8);
 	margin-top: 4rem;
 	margin-left: -15px;
 	margin-right: -15px;
-	background-color: @color1; 
+	background-color: @color2; 
 	color: #000000;
 	padding-top: 4rem;
-	padding-bottom: 14rem;
+	padding-bottom: 13rem;
 }
 
 .paragraph-wrap-area p {
-	color: #8c8c8c;
+	color: @color-gray;
+}
+
+@media (max-width: @screen-md-min) {
+	.paragraph-wrap-area {
+		padding: 2rem 1rem;
+	}
 }
 
 .paragraph-webform-wrap {
 	padding: 4rem;
-	background-color: @color1;
+	background-color: @color2;
+}
+	
+@media (max-width: @screen-md-min) {
+	.paragraph-webform-wrap {
+		padding: 2rem 1rem 4rem 1rem;
+	}
 }
 
 /* --- */
@@ -194,10 +257,10 @@ box-shadow: inset 0px -100px 90px 20px rgba(0,0,0,0.8);
     padding: 6px 12px;
     font-size: 14px;
     line-height: 1.42857143;
-    color: @color1;
+    color: @color-gray;
     background-color: #fff;
     background-image: none;
-    border: 1px solid @color1;
+    border: 1px solid @color2;
     border-radius: 0px;
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -207,10 +270,14 @@ box-shadow: inset 0px -100px 90px 20px rgba(0,0,0,0.8);
 }
 
 .form-control:focus {
-    border-color: @color1;
+    border-color: @color4;
     outline: 0;
     -webkit-box-shadow: none;;
     box-shadow: none;
+}
+
+.form-group {
+	margin-bottom: 20px;
 }
 
 /* --- */
@@ -219,7 +286,7 @@ box-shadow: inset 0px -100px 90px 20px rgba(0,0,0,0.8);
 .control-label {
   display: block;
   position: relative;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -236,17 +303,17 @@ box-shadow: inset 0px -100px 90px 20px rgba(0,0,0,0.8);
 /* Create a custom radio button */
 .checkmark {
   position: absolute;
-  top: -1px;
+  top: -2px;
   left: 0;
   height: 25px;
   width: 25px;
-  background-color: #eee;
+  background-color: @color1;
   border-radius: 50%;
 }
 
 /* On mouse-over, add a grey background color */
 .control-label:hover input ~ .checkmark {
-  background-color: #ccc;
+  background-color: @color4;
 }
 
 /* When the radio button is checked, add a blue background */
@@ -273,11 +340,11 @@ box-shadow: inset 0px -100px 90px 20px rgba(0,0,0,0.8);
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #000000;
+  background: @color4;
 }
 
 .checkbox label, .radio label {
-    padding-left: 30px;
+    padding-left: 35px;
 }
 
 /* --- */
@@ -298,23 +365,23 @@ input[type=range]::-webkit-slider-runnable-track {
   cursor: pointer;
   animate: 0.2s;
   box-shadow: 0px 0px 0px #000000;
-  background: @color1;
+  background: @color2;
   border-radius: 1px;
   border: 0px solid #000000;
 }
 input[type=range]::-webkit-slider-thumb {
   box-shadow: 0px 0px 0px #000000;
-  border: 1px solid @color1;
+  border: 1px solid @color2;
   height: 18px;
   width: 18px;
   border-radius: 25px;
-  background: @color1;
+  background: @color2;
   cursor: pointer;
   -webkit-appearance: none;
   margin-top: -7px;
 }
 input[type=range]:focus::-webkit-slider-runnable-track {
-  background: @color1;
+  background: @color2;
 }
 input[type=range]::-moz-range-track {
   width: 100%;
@@ -322,17 +389,17 @@ input[type=range]::-moz-range-track {
   cursor: pointer;
   animate: 0.2s;
   box-shadow: 0px 0px 0px #000000;
-  background: @color1;
+  background: @color2;
   border-radius: 1px;
   border: 0px solid #000000;
 }
 input[type=range]::-moz-range-thumb {
   box-shadow: 0px 0px 0px #000000;
-  border: 1px solid @color1;
+  border: 1px solid @color2;
   height: 18px;
   width: 18px;
   border-radius: 25px;
-  background: @color1;
+  background: @color2;
   cursor: pointer;
 }
 input[type=range]::-ms-track {
@@ -345,13 +412,13 @@ input[type=range]::-ms-track {
   color: transparent;
 }
 input[type=range]::-ms-fill-lower {
-  background: @color1;
+  background: @color2;
   border: 0px solid #000000;
   border-radius: 2px;
   box-shadow: 0px 0px 0px #000000;
 }
 input[type=range]::-ms-fill-upper {
-  background: @color1;
+  background: @color2;
   border: 0px solid #000000;
   border-radius: 2px;
   box-shadow: 0px 0px 0px #000000;
@@ -359,7 +426,7 @@ input[type=range]::-ms-fill-upper {
 input[type=range]::-ms-thumb {
   margin-top: 1px;
   box-shadow: 0px 0px 0px #000000;
-  border: 1px solid @color1;
+  border: 1px solid @color2;
   height: 18px;
   width: 18px;
   border-radius: 25px;
@@ -367,10 +434,10 @@ input[type=range]::-ms-thumb {
   cursor: pointer;
 }
 input[type=range]:focus::-ms-fill-lower {
-  background: @color1;
+  background: @color2;
 }
 input[type=range]:focus::-ms-fill-upper {
-  background: @color1;
+  background: @color2;
 }
 
 .form-type-range output {
@@ -378,7 +445,7 @@ input[type=range]:focus::-ms-fill-upper {
     position: absolute;
 	color: #000000;
     background: #FFFFFF;
-    border: 1px solid @color1;
+    border: 1px solid @color2;
     padding: 2px 5px;
     text-align: center;
 	top: 26px !important;
@@ -406,24 +473,40 @@ input[type=range]:focus::-ms-fill-upper {
 	font-size: 18px;
 	line-height: 1.5;
 	border-radius: 0px;
+	margin-top: 1rem;
 }
 
 .btn-primary {
-    color: #8c8c8c;
+    color: #000000;
     background-color: @color1;
     border-color: @color1;
 }
 
 .btn-primary.active, .btn-primary:active, .btn-primary:hover, .open>.dropdown-toggle.btn-primary {
-    color: #000000;
-    background-color: @color1;
-    border-color: @color1;
+    color: @color1;
+    background-color: @color4;
+    border-color: @color4;
 }
 
 .btn-primary.focus, .btn-primary:focus {
-    color: #000000;
-    background-color: @color1;
-    border-color: @color1;
+    color: @color1;
+    background-color: @color4;
+    border-color: @color4;
+}
+
+.btn-rsvp {
+	padding: 0.5rem 2rem; 
+	font-size: 26px;
+	font-weight: 700;
+	
+}
+
+.btn-rsvp:focus, 
+.btn-rsvp:hover, 
+.btn-rsvp:active {
+	color: @color1;
+	background-color: @color4;
+	
 }
 
 .has-error .checkbox, .has-error .checkbox-inline, .has-error .control-label, .has-error .help-block, .has-error .radio, .has-error .radio-inline, .has-error.checkbox label, .has-error.checkbox-inline label, .has-error.radio label, .has-error.radio-inline label {
@@ -431,7 +514,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .control-group .help-inline, .help-block {
-    color: #8c8c8c;
+    color: @color-gray;
     font-size: 12px;
     margin: 5px 0 10px;
     padding: 0;
