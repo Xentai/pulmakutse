@@ -61,6 +61,31 @@ h3 {
 	font-size: 1,125rem;
 }
 
+blockquote {
+  background-color: #FFF;
+  border-top: 3px solid @color4;
+  border-bottom: 3px solid @color4;
+  border-left: none;
+  margin: 1.5rem 0px;
+  padding: 1.5rem 10px;
+  font-size: 32px;
+  font-weight: 300;
+  quotes: "\201C""\201D""\2018""\2019";
+}
+
+blockquote:before {
+  color: @color4;
+  content: open-quote;
+  font-size: 6rem;
+  line-height: 1rem;
+  margin-right: 1rem;
+  vertical-align: -2.5rem;
+}
+
+blockquote p {
+  display: inline;
+}
+
 .columns-row {
 	margin-left: -30px;
 	margin-right: -30px;
@@ -497,27 +522,33 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .btn-primary {
-    color: #000;
-    background-color: @color-gray-light;
-    border-color: @color-gray-light;
+	color: #FFF;
+    background-color: @color4;
+    border-color: @color4;
+}
+
+.btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open>.dropdown-toggle.btn-primary.focus, .open>.dropdown-toggle.btn-primary:focus, .open>.dropdown-toggle.btn-primary:hover {
+    color: @color4;
+    background-color: #FFF;
+    border-color: @color4;
 }
 
 .btn-primary.active, .btn-primary:active, .btn-primary:hover, .open>.dropdown-toggle.btn-primary {
-    color: @color1;
-    background-color: @color4;
+    color: @color4;
+    background-color: #FFF;
     border-color: @color4;
 }
 
 .btn-primary.focus, .btn-primary:focus {
-    color: @color1;
+	color: #FFF;
     background-color: @color4;
-    border-color: @color4;
+    border-color: #000;
 }
 
 .btn-rsvp {
-	color: @color-gray-dark;
-    background-color: @color1;
-    border-color: @color1;
+	color: @color1;
+    background-color: @color4;
+    border-color: @color4;
 	padding: 0.5rem 2rem; 
 	font-size: 26px;
 	font-weight: 700;
@@ -527,8 +558,9 @@ input[type=range]:focus::-ms-fill-upper {
 .btn-rsvp:focus, 
 .btn-rsvp:hover, 
 .btn-rsvp:active {
-	color: @color1;
-	background-color: @color4;
+    color: @color4;
+    background-color: #FFF;
+    border-color: @color4;
 	
 }
 
@@ -543,6 +575,28 @@ input[type=range]:focus::-ms-fill-upper {
     padding: 0;
 }
 
+#edit-text-jah {
+    background-color: @color4;
+    border-color: #c3e6cb;
+	padding: 20px;
+    border: 1px solid transparent;
+    border-radius: 0px;
+	margin-bottom: 10px;
+}
+
+#edit-text-ei {
+    background-color: @color3;
+    border-color: #ffeeba;
+	padding: 20px;
+    border: 1px solid transparent;
+    border-radius: 0px;
+	margin-bottom: 10px;
+}
+
+#edit-text-jah p,
+#edit-text-ei p {
+	color: @color-gray-dark;
+}
 /* --- */
 
 .footer {
