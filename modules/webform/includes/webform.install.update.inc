@@ -2668,7 +2668,7 @@ function webform_update_8143() {
 /******************************************************************************/
 
 /**
- * Issue #2998239: Swift Mailer no longer working after custom email handler theme option was added
+ * Issue #2998239: Swift Mailer no longer working after custom email handler theme option was added.
  */
 function webform_update_8144() {
   $config_factory = \Drupal::configFactory();
@@ -2700,7 +2700,7 @@ function webform_update_8144() {
  */
 function webform_update_8145() {
   _webform_update_admin_settings();
-  _webform_update_webform_handler_settings();
+  _webform_update_webform_settings();
 }
 
 /**
@@ -2709,5 +2709,36 @@ function webform_update_8145() {
 function webform_update_8146() {
   if ($config = \Drupal::configFactory()->getEditable('webform_devel.settings')) {
     $config->delete();
+  }
+}
+
+/**
+ * Issue #3006468: Hide empty fields on on submission page.
+ */
+function webform_update_8147() {
+  _webform_update_webform_settings();
+}
+
+/**
+ * Issue #3007215: Option to retain webform title when source entity is provided.
+ */
+function webform_update_8148() {
+  _webform_update_webform_settings();
+}
+
+/**
+ * Issue #3007247: Custom composite fields appear as block elements.
+ */
+function webform_update_8149() {
+  $config_factory = \Drupal::configFactory();
+  foreach ($config_factory->listAll('webform.webform.') as $webform_config_name) {
+    $webform_config = $config_factory->getEditable($webform_config_name);
+    $elements = $webform_config->get('elements');
+    if (strpos($elements, "'add_more'") !== FALSE) {
+      $elements = str_replace("'#add_more'", "'#add_more_items'", $elements);
+      $elements = str_replace("'#multiple__add_more'", "'#multiple__add_more_items'", $elements);
+      $webform_config->set('elements', $elements);
+      $webform_config->save(TRUE);
+    }
   }
 }

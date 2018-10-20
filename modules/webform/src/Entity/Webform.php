@@ -869,6 +869,7 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
       'page' => TRUE,
       'page_submit_path' => '',
       'page_confirm_path' => '',
+      'form_title' => 'both',
       'form_submit_once' => FALSE,
       'form_exception_message' => '',
       'form_open_message' => '',
@@ -908,6 +909,9 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
       'submission_access_denied_attributes' => [],
       'submission_exception_message' => '',
       'submission_locked_message' => '',
+      'submission_excluded_elements' => [],
+      'submission_exclude_empty' => FALSE,
+      'submission_exclude_empty_checkbox' => FALSE,
       'previous_submission_message' => '',
       'previous_submissions_message' => '',
       'autofill' => FALSE,
@@ -1610,8 +1614,11 @@ class Webform extends ConfigEntityBundleBase implements WebformInterface {
     // Update owner to current user.
     $duplicate->setOwnerId(\Drupal::currentUser()->id());
 
-    // If template, clear description, remove template flag, and publish.
-    if ($duplicate->isTemplate()) {
+    // If template being used to create a new webform, clear description
+    // and remove the template flag.
+    // @see \Drupal\webform_templates\Controller\WebformTemplatesController::index
+    $is_template_duplicate = \Drupal::request()->get('template');
+    if ($duplicate->isTemplate() && !$is_template_duplicate) {
       $duplicate->set('description', '');
       $duplicate->set('template', FALSE);
     }

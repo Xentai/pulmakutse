@@ -4,7 +4,6 @@ namespace Drupal\webform\Plugin;
 
 use Drupal\Component\Plugin\PluginBase;
 use Drupal\Component\Utility\NestedArray;
-use Drupal\Component\Utility\Unicode;
 use Drupal\Component\Utility\Xss;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -211,10 +210,6 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
       // Form validation.
       'required' => FALSE,
       'required_error' => '',
-      'unique' => FALSE,
-      'unique_user' => FALSE,
-      'unique_entity' => FALSE,
-      'unique_error' => '',
       // Attributes.
       'wrapper_attributes' => [],
       'label_attributes' => [],
@@ -227,6 +222,16 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
       'format_items_html' => '',
       'format_items_text' => '',
     ];
+
+    // Unique validation.
+    if (!$this->isComposite()) {
+      $properties += [
+        'unique' => FALSE,
+        'unique_user' => FALSE,
+        'unique_entity' => FALSE,
+        'unique_error' => '',
+      ];
+    }
 
     $properties += $this->getDefaultBaseProperties();
 
@@ -245,10 +250,11 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
       'multiple__header_label' => '',
       'multiple__min_items' => '',
       'multiple__empty_items' => 1,
-      'multiple__add_more' => 1,
-      'multiple__add_more_button_label' => $this->t('Add'),
-      'multiple__add_more_input_label' => $this->t('more items'),
-      'multiple__no_items_message' => $this->t('No items entered. Please add items below.'),
+      'multiple__add_more' => TRUE,
+      'multiple__add_more_items' => 1,
+      'multiple__add_more_button_label' => (string) $this->t('Add'),
+      'multiple__add_more_input_label' => (string) $this->t('more items'),
+      'multiple__no_items_message' => (string) $this->t('No items entered. Please add items below.'),
       'multiple__sorting' => TRUE,
       'multiple__operations' => TRUE,
     ];
@@ -1207,7 +1213,7 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
       if (isset($options['delta'])) {
         return $this->$item_function($element, $webform_submission, $options);
       }
-      elseif ($this->getItemsFormat($element) === 'custom') {
+      elseif ($this->getItemsFormat($element) === 'custom' && !empty($element['#format_items_' . strtolower($type)])) {
         return $this->formatCustomItems($type, $element, $webform_submission, $options);
       }
       else {
@@ -1215,7 +1221,7 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
       }
     }
     else {
-      if ($this->getItemFormat($element) === 'custom') {
+      if ($this->getItemFormat($element) === 'custom' && !empty($element['#format_' . strtolower($type)])) {
         return $this->formatCustomItem($type, $element, $webform_submission, $options);
       }
       else {
@@ -1795,11 +1801,11 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
       return;
     }
 
-    if (!empty($element['#value']) && Unicode::strlen($element['#value']) < $element['#minlength']) {
+    if (!empty($element['#value']) && mb_strlen($element['#value']) < $element['#minlength']) {
       $t_args = [
         '%name' => empty($element['#title']) ? $element['#parents'][0] : $element['#title'],
         '%min' => $element['#minlength'],
-        '%length' => Unicode::strlen($element['#value']),
+        '%length' => mb_strlen($element['#value']),
       ];
       $form_state->setError($element, t('%name cannot be less than %min characters but is currently %length characters long.', $t_args));
     }
@@ -1975,7 +1981,7 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
       $validation_optgroup => [
         'required' => $this->t('Required'),
         'optional' => $this->t('Optional'),
-      ]
+      ],
     ];
 
     // Set readwrite/readonly states for any element that supports it
@@ -2343,7 +2349,7 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
     $form['form']['icheck'] = [
       '#type' => 'select',
       '#title' => 'Enhance using iCheck',
-      '#description' => $this->t('Replaces @type element with jQuery <a href=":href">iCheck</a> boxes.', ['@type' => Unicode::strtolower($this->getPluginLabel()), ':href' => 'http://icheck.fronteed.com/']),
+      '#description' => $this->t('Replaces @type element with jQuery <a href=":href">iCheck</a> boxes.', ['@type' => mb_strtolower($this->getPluginLabel()), ':href' => 'http://icheck.fronteed.com/']),
       '#empty_option' => $this->t('- Default -'),
       '#options' => [
         (string) $this->t('Minimal') => [
@@ -2506,6 +2512,7 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
       '#type' => 'webform_element_states',
       '#state_options' => $this->getElementStateOptions(),
       '#selector_options' => $webform->getElementsSelectorOptions(),
+      '#disabled_message' => TRUE,
     ];
     $form['conditional_logic']['states_clear'] = [
       '#type' => 'checkbox',
@@ -2569,6 +2576,7 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
           ':input[name="properties[multiple][container][cardinality_number]"]' => ['value' => 1],
         ],
       ],
+      '#attributes' => ['data-webform-states-no-clear' => TRUE],
     ];
     $form['multiple']['multiple__header'] = [
       '#type' => 'checkbox',
@@ -2581,75 +2589,113 @@ class WebformElementBase extends PluginBase implements WebformElementInterface {
       '#title' => $this->t('Table header label'),
       '#description' => $this->t('This is used as the table header for this webform element when displaying multiple values.'),
     ];
-    $form['multiple']['multiple__add_more_button_label'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Add more button label'),
-      '#attributes' => ['data-webform-states-no-clear' => TRUE],
-      '#description' => $this->t('This is used as the add more items button label for this webform element when displaying multiple values.'),
-    ];
-    $form['multiple']['multiple__add_more_input_label'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Add more input label'),
-      '#attributes' => ['data-webform-states-no-clear' => TRUE],
-      '#description' => $this->t('This is used as the add more items input label for this webform element when displaying multiple values.'),
-    ];
-    $form['multiple']['multiple__add_more_button_label'] = [
-      '#type' => 'textfield',
-      '#title' => $this->t('Add more button label'),
-      '#attributes' => ['data-webform-states-no-clear' => TRUE],
-      '#description' => $this->t('This is used as the add more items button label for this webform element when displaying multiple values.'),
-    ];
     $form['multiple']['multiple__no_items_message'] = [
       '#type' => 'webform_html_editor',
       '#title' => $this->t('No items message'),
-      '#attributes' => ['data-webform-states-no-clear' => TRUE],
       '#description' => $this->t('This is used when there are no items entered.'),
     ];
     $form['multiple']['multiple__min_items'] = [
       '#type' => 'number',
       '#title' => $this->t('Minimum amount of items'),
       '#description' => $this->t('Minimum items defaults to 0 for optional elements and 1 for required elements.'),
-      '#attributes' => ['data-webform-states-no-clear' => TRUE],
       '#min' => 0,
       '#max' => 20,
     ];
     $form['multiple']['multiple__empty_items'] = [
       '#type' => 'number',
       '#title' => $this->t('Number of empty items'),
-      '#attributes' => ['data-webform-states-no-clear' => TRUE],
       '#required' => TRUE,
       '#min' => 0,
-      '#max' => 20,
-    ];
-    $form['multiple']['multiple__add_more'] = [
-      '#type' => 'number',
-      '#title' => $this->t('Number of add more items'),
-      '#attributes' => ['data-webform-states-no-clear' => TRUE],
-      '#required' => TRUE,
-      '#min' => 1,
       '#max' => 20,
     ];
     $form['multiple']['multiple__sorting'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Allow users to sort elements.'),
       '#description' => $this->t('If unchecked, the elements will no longer be sortable.'),
-      '#attributes' => ['data-webform-states-no-clear' => TRUE],
       '#return_value' => TRUE,
     ];
     $form['multiple']['multiple__operations'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Allow users to add/remove elements.'),
       '#description' => $this->t('If unchecked, the add/remove (+/x) buttons will be removed from each table row.'),
-      '#attributes' => ['data-webform-states-no-clear' => TRUE],
       '#return_value' => TRUE,
+    ];
+    $form['multiple']['multiple__add_more'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Allows users to add more item'),
+      '#description' => $this->t('If checked, an add more input will be added below the multiple values.'),
+      '#return_value' => TRUE,
+    ];
+    $form['multiple']['multiple__add_more_container'] = [
+      '#type' => 'container',
+      '#states' => [
+        'visible' => [
+          ':input[name="properties[multiple__add_more]"]' => ['checked' => TRUE],
+        ],
+      ],
+    ];
+    $form['multiple']['multiple__add_more_container']['multiple__add_more_button_label'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Add more button label'),
+      '#description' => $this->t('This is used as the add more items button label for this webform element when displaying multiple values.'),
+    ];
+    $form['multiple']['multiple__add_more_container']['multiple__add_more_input_label'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Add more input label'),
+      '#description' => $this->t('This is used as the add more items input label for this webform element when displaying multiple values.'),
+    ];
+    $form['multiple']['multiple__add_more_container']['multiple__add_more_button_label'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Add more button label'),
+      '#description' => $this->t('This is used as the add more items button label for this webform element when displaying multiple values.'),
+    ];
+    $form['multiple']['multiple__add_more_container']['multiple__add_more_items'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Number of add more items'),
+      '#required' => TRUE,
+      '#min' => 1,
+      '#max' => 20,
     ];
 
     /* Wrapper attributes */
 
     $form['wrapper_attributes'] = [
       '#type' => 'details',
-      '#title' => $this->t('Wrapper attributes'),
+      '#title' => ($this->hasProperty('wrapper_type')) ?
+        $this->t('Wrapper type and attributes') :
+        $this->t('Wrapper attributes'),
     ];
+    $form['wrapper_attributes']['wrapper_type'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Wrapper type'),
+      '#options' => [
+        'fieldset' => $this->t('Fieldset'),
+        'form_element' => $this->t('Form element'),
+        'container' => $this->t('Container'),
+      ],
+      '#description' => '<b>' . t('Fieldset') . ':</b> ' . t('Wraps inputs in a fieldset.') . ' <strong>' . t('Recommended') . '</strong>' .
+        '<br/><br/><b>' . t('Form element') . ':</b> ' . t('Wraps inputs in a basic form element with title and description.') .
+        '<br/><br/><b>' . t('Container') . ':</b> ' . t('Wraps inputs in a basic div with no title or description.'),
+    ];
+    // Hide element description and display when using a container wrapper.
+    if ($this->hasProperty('wrapper_type')) {
+      $form['element_description']['#states'] = [
+        '!visible' => [
+          ':input[name="properties[wrapper_type]"]' => ['value' => 'container'],
+        ],
+      ];
+      $form['form']['display_container']['#states'] = [
+        '!visible' => [
+          ':input[name="properties[wrapper_type]"]' => ['value' => 'container'],
+        ],
+      ];
+      $form['form']['field_container']['#states'] = [
+        '!visible' => [
+          ':input[name="properties[wrapper_type]"]' => ['value' => 'container'],
+        ],
+      ];
+    }
+
     $form['wrapper_attributes']['wrapper_attributes'] = [
       '#type' => 'webform_element_attributes',
       '#title' => $this->t('Wrapper'),

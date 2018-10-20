@@ -92,8 +92,8 @@
             });
         }
 
-        $(window).load(setup(this));
-        resizeEvent(this);
+        // $(window).load(setup(this));
+		$(window).on('load', setup(this));
 
         // chain jQuery functions
         return this;

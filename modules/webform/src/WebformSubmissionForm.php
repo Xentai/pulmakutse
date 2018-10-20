@@ -140,6 +140,13 @@ class WebformSubmissionForm extends ContentEntityForm {
   protected $sourceEntity;
 
   /**
+   * States API prefix.
+   *
+   * @var string
+   */
+  protected $statesPrefix;
+
+  /**
    * Constructs a WebformSubmissionForm object.
    *
    * @param \Drupal\Core\Entity\EntityManagerInterface $entity_manager
@@ -200,7 +207,6 @@ class WebformSubmissionForm extends ContentEntityForm {
       $container->get('webform_submission.conditions_validator'),
       $container->get('webform.entity_reference_manager'),
       $container->get('webform_submission.generate')
-
     );
   }
 
@@ -466,6 +472,10 @@ class WebformSubmissionForm extends ContentEntityForm {
     }
     array_walk($class, ['\Drupal\Component\Utility\Html', 'getClass']);
     $form['#attributes']['class'] = $class;
+
+    // Get last class, which is the most specific, as #states prefix.
+    // @see \Drupal\webform\WebformSubmissionForm::addStatesPrefix
+    $this->statesPrefix = '.' . end($class);
 
     // Check for a custom webform, track it, and return it.
     if ($custom_form = $this->getCustomForm($form, $form_state)) {
@@ -1462,7 +1472,7 @@ class WebformSubmissionForm extends ContentEntityForm {
     if ($total_file_size > $file_limit) {
       $t_args = ['%quota' => format_size($file_limit)];
       $message = [];
-      $message['content'] = ['#markup' => t("This form's file upload quota of %quota has been exceeded. Please remove some files.", $t_args)];
+      $message['content'] = ['#markup' => $this->t("This form's file upload quota of %quota has been exceeded. Please remove some files.", $t_args)];
       $message['files'] = [
         '#theme' => 'item_list',
         '#items' => $file_names,
@@ -2027,9 +2037,40 @@ class WebformSubmissionForm extends ContentEntityForm {
       // Build the webform element.
       $this->elementManager->buildElement($element, $form, $form_state);
 
+      if (isset($element['#states'])) {
+        $element['#states'] = $this->addStatesPrefix($element['#states']);
+      }
+
       // Recurse and prepare nested elements.
       $this->prepareElements($element, $form, $form_state);
     }
+  }
+
+  /**
+   * Add unique class prefix to all :input #states selectors.
+   *
+   * @param array $array
+   *   An associative array.
+   *
+   * @return array
+   *   An associative array with unique class prefix added to all :input
+   *   #states selectors.
+   */
+  protected function addStatesPrefix(array $array) {
+    $prefixed_array = [];
+    foreach ($array as $key => $value) {
+      if (strpos($key, ':input') === 0) {
+        $key = $this->statesPrefix . ' ' . $key;
+        $prefixed_array[$key] = $value;
+      }
+      elseif (is_array($value)) {
+        $prefixed_array[$key] = $this->addStatesPrefix($value);
+      }
+      else {
+        $prefixed_array[$key] = $value;
+      }
+    }
+    return $prefixed_array;
   }
 
   /**

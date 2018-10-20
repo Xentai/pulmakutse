@@ -275,6 +275,47 @@ function webform_preprocess_radios(&$variables) {
 }
 
 /******************************************************************************/
+// Preprocess tables.
+/******************************************************************************/
+
+/**
+ * Prepares variables for table templates.
+ */
+function webform_preprocess_table(&$variables) {
+  // Add links to 'Translate' webform tab.
+  if (\Drupal::routeMatch()->getRouteName() === 'entity.webform.config_translation_overview') {
+    /** @var \Drupal\webform\WebformInterface $webform */
+    $webform = \Drupal::routeMatch()->getParameter('webform');
+    foreach ($variables['rows'] as &$row) {
+      // Check first cell.
+      if (!isset($row['cells'][0]['content'])
+        || !isset($row['cells'][0]['content']['#markup'])) {
+        continue;
+      }
+
+      // Check last cell edit link.
+      if (!isset($row['cells'][1]['content'])
+        || !isset($row['cells'][1]['content']['#links'])
+        || !isset($row['cells'][1]['content']['#links']['edit'])) {
+        continue;
+      }
+
+      // Get language from edit link.
+      $route_parameters = $row['cells'][1]['content']['#links']['edit']['url']->getRouteParameters();
+      $langcode = (isset($route_parameters['langcode'])) ? $route_parameters['langcode'] : NULL;
+      $language = \Drupal::languageManager()->getLanguage($langcode);
+
+      // Convert first to link.
+      $row['cells'][0]['content'] = [
+        '#type' => 'link',
+        '#url' => $webform->toUrl('canonical', ['language' => $language]),
+        '#title' => $row['cells'][0]['content'],
+      ];
+    }
+  }
+}
+
+/******************************************************************************/
 // Preprocess containers.
 /******************************************************************************/
 
@@ -342,7 +383,7 @@ function webform_preprocess_fieldset(&$variables) {
         $variables['prefix'] = ['prefix' => $variables['prefix']];
       }
       else {
-        $variables['prefix'] = ['prefix' => ['#markup' => $variables['prefix']] ];
+        $variables['prefix'] = ['prefix' => ['#markup' => $variables['prefix']]];
       }
     }
     else {
@@ -468,7 +509,6 @@ function webform_preprocess_file_managed_file(&$variables) {
   // Attach library.
   $element['#attached']['library'][] = 'webform/webform.element.file.button';
 }
-
 
 /**
  * Prepares variables for file upload help text templates.
