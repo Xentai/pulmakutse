@@ -41,7 +41,7 @@ b, strong {
     margin-bottom: 1.75rem;
 }
 
-@media (max-width: @screen-md-min) {
+@media (max-width: @screen-lg-min) {
 	.h1, .h2, .h3, h1, h2, h3 {
 		margin-top: 2rem;
 		margin-bottom: 1.75rem;
@@ -99,9 +99,21 @@ blockquote p {
     transform: translate(-50%, -50%)
 }
 
+@media (max-width: @screen-lg-min) {
+	.vcenter {
+		top: 45%;
+	}
+}
+
 @media (max-width: @screen-md-min) {
 	.vcenter {
-		top: 30%;
+		top: 40%;
+	}
+}
+
+@media (max-width: @screen-sm-min) {
+	.vcenter {
+		top: 35%;
 	}
 }
 
@@ -125,6 +137,13 @@ blockquote p {
 
 	background-attachment: fixed;
 }
+
+@media (max-width: @screen-lg-min) {
+	.front-banner-wrap {
+		background-attachment: scroll;
+	}
+}
+
 
 .front-banner-inner {
 	text-align: center;
@@ -184,7 +203,7 @@ blockquote p {
 	text-shadow: 2px 3px 10px #000;
 }
 
-@media (max-width: @screen-md-min) {
+@media (max-width: @screen-lg-min) {
 	.main-title {
 		font-size: 58px;
 	}
@@ -200,20 +219,20 @@ blockquote p {
 	margin-top: 4rem;
 }
 
-@media (max-width: @screen-md-min) {
+@media (max-width: @screen-lg-min) {
 	.paragraph {
 		margin-top: 2rem;
 		margin-bottom: 4rem;
 	}
 }
 
-@media (min-width: @screen-md-min) {
+@media (min-width: @screen-lg-min) {
 	.field--type-webform {
 		width: 50%;
 	}
 }
 
-@media (min-width: @screen-md-min) {
+@media (min-width: @screen-lg-min) {
 	.paragraph--type--icons {
 		margin-top: -8rem;
 		background-color: #FFFFFF;
@@ -226,7 +245,7 @@ blockquote p {
 	margin-right: -15px;
 }
 
-@media (max-width: @screen-md-min) {
+@media (max-width: @screen-lg-min) {
 	.paragraph-wrap-icons {
 		margin-top: 4rem;
 		margin-top: 4rem;
@@ -275,7 +294,7 @@ blockquote p {
 	color: @color-gray;
 }
 
-@media (max-width: @screen-md-min) {
+@media (max-width: @screen-lg-min) {
 	.paragraph-wrap-area {
 		padding: 2rem 1rem;
 	}
@@ -286,7 +305,7 @@ blockquote p {
 	background-color: @color2;
 }
 	
-@media (max-width: @screen-md-min) {
+@media (max-width: @screen-lg-min) {
 	.paragraph-webform-wrap {
 		padding: 2rem 1rem 4rem 1rem;
 	}
